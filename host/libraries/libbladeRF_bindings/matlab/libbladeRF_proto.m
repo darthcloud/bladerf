@@ -611,6 +611,8 @@ fcns.thunkname{fcnNum}='int32voidPtrbladerf_pmic_registervoidPtrThunk';fcns.name
 % int bladerf_get_rf_switch_config ( struct bladerf * dev , bladerf_rf_switch_config * config );
 fcns.thunkname{fcnNum}='int32voidPtrvoidPtrThunk';fcns.name{fcnNum}='bladerf_get_rf_switch_config'; fcns.calltype{fcnNum}='Thunk'; fcns.LHS{fcnNum}='int32'; fcns.RHS{fcnNum}={'bladerfPtr', 'bladerf_rf_switch_configPtr'};fcnNum=fcnNum+1;
 
+% bladerf_enable_feature(struct bladerf *dev, bladerf_feature feature, bool enable);
+fcns.thunkname{fcnNum}='int32voidPtrint32voidPtrThunk';fcns.name{fcnNum}='bladerf_enable_feature'; fcns.calltype{fcnNum}='Thunk'; fcns.LHS{fcnNum}='int32'; fcns.RHS{fcnNum}={'bladerfPtr', 'bladerf_feature', 'boolPtr'};fcnNum=fcnNum+1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Structures
@@ -886,6 +888,9 @@ enuminfo.bladerf_pmic_register=struct('BLADERF_PMIC_CONFIGURATION',  0, ...
 
 enuminfo.bladerf_clock_select=struct('CLOCK_SELECT_ONBOARD',    0, ...
                                      'CLOCK_SELECT_EXTERNAL',  1);
+
+enuminfo.bladerf_feature=struct('BLADERF_FEATURE_DEFAULT',    0, ...
+                                'BLADERF_FEATURE_OVERSAMPLE',  1);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

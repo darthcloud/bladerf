@@ -9,6 +9,7 @@ samples_per_rx = floor(Fs * n_sec / num_rxs);
 
 rxs = zeros(num_rxs, samples_per_rx);
 
+dev.rx.enable_feature('OVERSAMPLE', true)
 dev.rx.config.num_buffers = 512;
 dev.rx.frequency  = Fc;
 dev.rx.samplerate = Fs;

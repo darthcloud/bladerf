@@ -519,6 +519,20 @@ classdef bladeRF_XCVR < handle
             mode = strrep(mode, 'BLADERF_RX_MUX_', '');
         end
 
+        % Set feature
+        function enable_feature(obj, val, state)
+            switch upper(val)
+                case 'DEFAULT'
+                    feature_val = 'BLADERF_FEATURE_DEFAULT';
+                case 'OVERSAMPLE'
+                    feature_val = 'BLADERF_FEATURE_OVERSAMPLE';
+                otherwise
+                    error(strcat('Invalid feature: ', val));
+            end
+            status = calllib('libbladeRF', 'bladerf_enable_feature', obj.bladerf.device, feature_val, state);
+            bladeRF.check_status('bladerf_enable_feature', status);
+        end
+
         % Constructor
         function obj = bladeRF_XCVR(dev, dir, xb)
             if strcmpi(dir,'RX') == false && strcmpi(dir,'TX') == false
