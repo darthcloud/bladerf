@@ -1,7 +1,7 @@
 dev = bladeRF();
 
-Fc = 450e6;
-Fs = 5e6;
+Fc = 2.44e9;
+Fs = 122.88e6;
 
 n_sec          = 3;
 num_rxs        = 256;
@@ -12,8 +12,8 @@ rxs = zeros(num_rxs, samples_per_rx);
 dev.rx.enable_feature('OVERSAMPLE', true)
 dev.rx.config.num_buffers = 512;
 dev.rx.frequency  = Fc;
-dev.rx.samplerate = Fs;
-dev.rx.bandwidth  = 1.5e6;
+%dev.rx.samplerate = Fs;
+dev.rx.bandwidth  = 56e6;
 
 fprintf('Running with the following settings:\n');
 dev.rx

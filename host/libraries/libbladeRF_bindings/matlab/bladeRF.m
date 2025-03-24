@@ -672,7 +672,7 @@ classdef bladeRF < handle
                 timestamp_in = 0;
             end
 
-            s16 = int16(zeros(2*num_samples, 1));
+            s8 = int8(zeros(2*num_samples, 1));
 
             metad = libstruct('bladerf_metadata');
             metad.actual_count = 0;
@@ -692,9 +692,9 @@ classdef bladeRF < handle
 
             overrun = false;
 
-            [status, ~, s16, ~] = calllib('libbladeRF', 'bladerf_sync_rx', ...
+            [status, ~, s8, ~] = calllib('libbladeRF', 'bladerf_sync_rx', ...
                                           obj.device, ...
-                                          s16, ...
+                                          s8, ...
                                           num_samples, ...
                                           pmetad, ...
                                           timeout_ms);
@@ -707,7 +707,8 @@ classdef bladeRF < handle
             end
 
             % Deinterleve and scale to [-1.0, 1.0).
-            samples = (double(s16(1:2:end)) + double(s16(2:2:end))*1j) ./ 2048.0;
+            %samples = (double(s16(1:2:end)) + double(s16(2:2:end))*1j) ./ 2048.0;
+            samples = (double(s8(1:2:end)) + double(s8(2:2:end))*1j) ./ 256.0;
             timestamp_out = metad.timestamp;
         end
 
