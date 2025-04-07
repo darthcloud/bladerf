@@ -27,6 +27,9 @@ rx_ch.bandwidth = sample_rate/2
 rx_ch.gain_mode = _bladerf.GainMode.Manual
 rx_ch.gain = gain
 
+# Enable oversample
+sdr.enable_feature(_bladerf.Feature.OVERSAMPLE, True)
+
 # Setup synchronous stream
 sdr.sync_config(layout = _bladerf.ChannelLayout.RX_X1, # or RX_X2
                 fmt = _bladerf.Format.SC8_Q7, # int8s

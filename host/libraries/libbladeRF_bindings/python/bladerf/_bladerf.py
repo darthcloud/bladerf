@@ -210,6 +210,10 @@ class Format(enum.Enum):
     SC8_Q7_META = libbladeRF.BLADERF_FORMAT_SC8_Q7_META
 
 
+class Feature(enum.Enum):
+    OVERSAMPLE = libbladeRF.BLADERF_FEATURE_OVERSAMPLE
+
+
 class Loopback(enum.Enum):
     Disabled = libbladeRF.BLADERF_LB_NONE
     Firmware = libbladeRF.BLADERF_LB_FIRMWARE
@@ -602,6 +606,10 @@ class BladeRF:
         return self.get_channel_count(libbladeRF.BLADERF_TX)
 
     # Enable/Disable
+
+    def enable_feature(self, feature, enable):
+        ret = libbladeRF.bladerf_enable_feature(self.dev[0], feature.value, bool(enable))
+        _check_error(ret)
 
     def enable_module(self, ch, enable):
         ret = libbladeRF.bladerf_enable_module(self.dev[0], ch, bool(enable))
