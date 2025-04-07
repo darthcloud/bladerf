@@ -16,19 +16,19 @@ print("frequency_range:", rx_ch.frequency_range)
 print("gain_modes:", rx_ch.gain_modes)
 print("manual gain range:", sdr.get_gain_range(_bladerf.CHANNEL_RX(0))) # ch 0 or 1
 
-sample_rate = 10e6
-center_freq = 100e6
-gain = 50 # -15 to 60 dB
-num_samples = int(1e6)
-
-rx_ch.frequency = center_freq
-rx_ch.sample_rate = sample_rate
-rx_ch.bandwidth = sample_rate/2
-rx_ch.gain_mode = _bladerf.GainMode.Manual
-rx_ch.gain = gain
+sample_rate = 112e6
+center_freq = 2440e6
+gain = 30 # -15 to 60 dB
+num_samples = int(10e6)
 
 # Enable oversample
 sdr.enable_feature(_bladerf.Feature.OVERSAMPLE, True)
+
+rx_ch.frequency = center_freq
+#rx_ch.sample_rate = sample_rate
+rx_ch.bandwidth = sample_rate/2
+rx_ch.gain_mode = _bladerf.GainMode.Manual
+rx_ch.gain = gain
 
 # Setup synchronous stream
 sdr.sync_config(layout = _bladerf.ChannelLayout.RX_X1, # or RX_X2
@@ -59,7 +59,7 @@ while True:
     sdr.sync_rx(buf, num) # Read into buffer
     samples = np.frombuffer(buf, dtype=np.int8)
     samples = samples[0::2] + 1j * samples[1::2] # Convert to complex type
-    samples /= 2048.0 # Scale to -1 to 1 (its using 12 bit ADC)
+    samples /= 256.0 # Scale to -1 to 1
     x[num_samples_read:num_samples_read+num] = samples[0:num] # Store buf in samples array
     num_samples_read += num
 
@@ -68,7 +68,7 @@ rx_ch.enable = False
 print(x[0:10]) # look at first 10 IQ samples
 
 # Create spectrogram
-fft_size = 2048
+fft_size = 256
 num_rows = len(x) // fft_size # // is an integer division which rounds down
 spectrogram = np.zeros((num_rows, fft_size))
 for i in range(num_rows):
