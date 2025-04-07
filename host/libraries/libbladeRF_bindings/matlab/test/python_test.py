@@ -29,14 +29,14 @@ rx_ch.gain = gain
 
 # Setup synchronous stream
 sdr.sync_config(layout = _bladerf.ChannelLayout.RX_X1, # or RX_X2
-                fmt = _bladerf.Format.SC16_Q11, # int16s
+                fmt = _bladerf.Format.SC8_Q7, # int8s
                 num_buffers    = 16,
                 buffer_size    = 8192,
                 num_transfers  = 8,
                 stream_timeout = 3500)
 
 # Create receive buffer
-bytes_per_sample = 4 # don't change this, it will always use int16s
+bytes_per_sample = 2 # don't change this, it will always use int16s
 buf = bytearray(1024 * bytes_per_sample)
 
 # Enable module
@@ -54,7 +54,7 @@ while True:
     else:
         num = len(buf) // bytes_per_sample
     sdr.sync_rx(buf, num) # Read into buffer
-    samples = np.frombuffer(buf, dtype=np.int16)
+    samples = np.frombuffer(buf, dtype=np.int8)
     samples = samples[0::2] + 1j * samples[1::2] # Convert to complex type
     samples /= 2048.0 # Scale to -1 to 1 (its using 12 bit ADC)
     x[num_samples_read:num_samples_read+num] = samples[0:num] # Store buf in samples array
